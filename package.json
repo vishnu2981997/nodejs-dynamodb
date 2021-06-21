@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-dynamodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "pm2 start ecosystem.config.js",
+    "restart": "pm2 restart ecosystem.config.js",
+    "dev": "nodemon",
+    "dev:inspect": "nodemon --exec \"node --inspect=7000 src\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vishnu2981997 <vishnu2981997@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.925.0",
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}
