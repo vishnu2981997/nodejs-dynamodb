@@ -1,4 +1,5 @@
 const express = require('express');
+const config = require('./config/config');
 const app = express();
 
 app.get('/', (req, res) => {
@@ -6,9 +7,9 @@ app.get('/', (req, res) => {
     res.status(200).json({message: 'Hello human. Request from IP address ' + ip + ' logged.'});
 });
 
-const port = process.env.PORT || 3000;
+const port = config.port || 3000;
 
 app.listen(port, () => {
-    console.log(`env : ${process.env.NODE_ENV}`)
+    console.log(`env : ${config.env}`)
     console.log(`listening on port : ${port}`)
 })
