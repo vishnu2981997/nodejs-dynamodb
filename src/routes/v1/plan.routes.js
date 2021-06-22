@@ -1,37 +1,21 @@
 const express = require('express');
-
+const {planController} = require('../../controllers')
 const router = express.Router();
 
 router
     .route('/create-plan')
-    .post(async function (req, res, next) {
-        res.status(201).json({
-            message: 'plan created'
-        });
-    });
+    .post(planController.createPlan);
 
 router
     .route('/get-plans')
-    .get(async function (req, res, next) {
-        res.status(201).json({
-            message: 'plans fetched'
-        });
-    });
+    .get(planController.getPlans);
 
 router
-    .route('/:planId/get-plan')
-    .get(async function (req, res, next) {
-        res.status(201).json({
-            message: 'plan fetched'
-        });
-    });
+    .route('/get-plan/:planID')
+    .get(planController.getPlan);
 
 router
-    .route('/:planId/update-plan')
-    .put(async function (req, res, next) {
-        res.status(201).json({
-            message: 'plan updated'
-        });
-    });
+    .route('/update-plan/:planID')
+    .put(planController.updatePlan);
 
 module.exports = router;
