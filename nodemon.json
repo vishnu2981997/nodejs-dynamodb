@@ -1,0 +1,8 @@
+{
+  "verbose": true,
+  "debug": false,
+  "exec": "node src/",
+  "watch": ["./src", "./config"],
+  "ext": "js, json, env",
+  "inspect": true
+}
