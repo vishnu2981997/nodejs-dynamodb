@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const httpStatus = require('http-status');
+const uniqueId = require('./middlewares/uniqueId');
 const routes = require('./routes/v1');
 const ApiError = require('./utils/ApiError');
 const {errorConverter, errorHandler} = require('./middlewares/error');
@@ -26,6 +27,8 @@ app.use(bodyParser.urlencoded({
     limit: '1mb',
     extended: true
 }));
+
+app.use(uniqueId);
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json({limit: '10mb'}));
