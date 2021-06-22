@@ -6,6 +6,7 @@ dotenv.config({path: path.join(__dirname, '../../.env')});
 
 const envVarsSchema = Joi.object()
     .keys({
+        SERVICE_NAME: Joi.string().required().description('API service name'),
         NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
         PORT: Joi.number().default(9001),
         API_SUPER_ADMIN_KEY: Joi.string().required().description('API super admin key'),
@@ -24,6 +25,7 @@ if (error) {
 }
 
 module.exports = {
+    serviceName: envVars.SERVICE_NAME,
     env: envVars.NODE_ENV,
     port: envVars.PORT,
     apiKey: envVars.API_KEY,
