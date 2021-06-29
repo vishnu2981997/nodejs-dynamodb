@@ -3,43 +3,39 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const {apiResponse} = require('../middlewares/response');
 const {Plan} = require('../models');
-const {v4: uuidV4} = require('uuid');
+const {planServices} = require('../services');
 
 const createPlan = catchAsync(async (req, res) => {
-    const {name} = req.body;
+    const body = req.body;
 
-    const plan = await Plan.create({
-        id: uuidV4(),
-        name,
-    });
+    const plan = await planServices.createPlan(body);
 
     apiResponse(req, res, plan, httpStatus.CREATED);
 });
 
 const getPlans = catchAsync(async (req, res) => {
-    const plans = await Plan.scan().exec();
+    const plans = await planServices.queryPlans();
     apiResponse(req, res, plans);
 });
 
 const getPlan = catchAsync(async (req, res) => {
     const {planID} = req.params;
-    const plan = await Plan.query('id').eq(planID).exec();
+    const plan = await planServices.getPlanById(planID);
     apiResponse(req, res, plan);
 });
 
 const updatePlan = catchAsync(async (req, res) => {
     const {planID} = req.params;
     const {body: data} = req;
-    let plan = await Plan.query('id').eq(planID).exec();
+    let plan = await planServices.getPlanById(planID);
     if (!plan || !plan.length) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Plan not found');
     }
-    plan = plan[0];
-    plan.name = data.name ? data.name : plan.name;
-    delete plan.createdAt;
-    delete plan.updatedAt;
-    plan = await Plan.update(plan);
-    apiResponse(req, res, plan);
+
+    let updatedPlan = plan[0];
+    updatedPlan.name = data.name ? data.name : updatedPlan.name;
+    updatedPlan = await planServices.updatePlan(updatedPlan);
+    apiResponse(req, res, updatedPlan);
 });
 
 module.exports = {
