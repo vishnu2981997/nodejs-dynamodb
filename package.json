@@ -13,6 +13,7 @@
   "author": "vishnu2981997 <vishnu2981997@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "ajv": "^8.6.0",
     "aws-sdk": "^2.925.0",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
