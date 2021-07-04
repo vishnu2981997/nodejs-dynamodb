@@ -10,7 +10,23 @@ const schema = new dynamoose.Schema(
         name: {
             type: String,
             required: true,
-        }
+        },
+        createdBy: {
+            type: String,
+            required: true,
+        },
+        updatedBy: {
+            type: String,
+            required: true,
+        },
+        createdFrom: {
+            type: String,
+            required: true,
+        },
+        updatedFrom: {
+            type: String,
+            required: true,
+        },
     },
     {
         timestamps: true,

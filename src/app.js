@@ -7,6 +7,8 @@ const uniqueId = require('./middlewares/uniqueId');
 const routes = require('./routes/v1');
 const ApiError = require('./utils/ApiError');
 const {errorConverter, errorHandler} = require('./middlewares/error');
+const {verifyAccessToken} = require('./middlewares/auth');
+const {logger} = require('./middlewares/logging');
 
 const app = express();
 // set security HTTP headers
@@ -29,6 +31,14 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(uniqueId);
+
+app.use(verifyAccessToken);
+
+app.use((req, res, next) => {
+    // req.log = logger(req);
+    console.log('service', req.service);
+    next();
+});
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json({limit: '10mb'}));

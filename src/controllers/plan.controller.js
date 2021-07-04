@@ -6,9 +6,9 @@ const {Plan} = require('../models');
 const {planServices} = require('../services');
 
 const createPlan = catchAsync(async (req, res) => {
-    const body = req.body;
+    const {user, body} = req;
 
-    const plan = await planServices.createPlan(body);
+    const plan = await planServices.createPlan(body, user);
 
     apiResponse(req, res, plan, httpStatus.CREATED);
 });
@@ -20,22 +20,30 @@ const getPlans = catchAsync(async (req, res) => {
 
 const getPlan = catchAsync(async (req, res) => {
     const {planID} = req.params;
-    const plan = await planServices.getPlanById(planID);
+    let plan = await planServices.getPlanById(planID);
+
+    if (!plan || !plan.length) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Plan not found');
+    }
+
+    plan = plan[0];
+
     apiResponse(req, res, plan);
 });
 
 const updatePlan = catchAsync(async (req, res) => {
     const {planID} = req.params;
-    const {body: data} = req;
+    const {user, body} = req;
     let plan = await planServices.getPlanById(planID);
     if (!plan || !plan.length) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Plan not found');
     }
 
-    let updatedPlan = plan[0];
-    updatedPlan.name = data.name ? data.name : updatedPlan.name;
-    updatedPlan = await planServices.updatePlan(updatedPlan);
-    apiResponse(req, res, updatedPlan);
+    let updatedBody = plan[0];
+    updatedBody.name = body.name ? body.name : updatedBody.name;
+    updatedBody = await planServices.updatePlan(updatedBody, user);
+
+    apiResponse(req, res, updatedBody);
 });
 
 module.exports = {
